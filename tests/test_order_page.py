@@ -5,7 +5,7 @@ from pages.order_page import OrderPage
 from data import Users
 from urls import Urls
 
-@pytest.mark.usefixtures('driver')
+
 @allure.feature('Страница заказа')
 class TestOrderPage:
     @allure.title('Заказ через кнопку "Заказать" - {button_type}')
@@ -42,4 +42,9 @@ class TestOrderPage:
             order_page.confirm_order()
 
         with allure.step('Проверяем успешное оформление'):
-            assert order_page.check_success_message()
+            success_displayed = order_page.check_success_message()
+            assert success_displayed, "Сообщение об успешном заказе должно отображаться"
+
+            # Дополнительная проверка - что мы остались на странице заказа
+            current_url = order_page.get_current_url()
+            assert urls.ORDER_PAGE in current_url or "order" in current_url, "Должны остаться на странице заказа"

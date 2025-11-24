@@ -1,7 +1,5 @@
 import allure
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
 from pages.base_page import BasePage
 from locators.main_page_locators import MainPageLocators
 
@@ -9,10 +7,7 @@ class MainPage(BasePage):
     @allure.step('Принять куки')
     def accept_cookies(self):
         try:
-            cookie_button = WebDriverWait(self.driver, 10).until(
-                EC.element_to_be_clickable(MainPageLocators.COOKIE_BUTTON)
-            )
-            cookie_button.click()
+           self.click_element(MainPageLocators.COOKIE_BUTTON)
         except:
             pass
 

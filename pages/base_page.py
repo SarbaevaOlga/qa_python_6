@@ -13,6 +13,12 @@ class BasePage:
             EC.visibility_of_element_located(locator)
         )
 
+    @allure.step('Ожидание кликабельности элемента {locator}')
+    def wait_for_element_to_be_clickable(self, locator, timeout=10):
+        return WebDriverWait(self.driver, timeout).until(
+            EC.element_to_be_clickable(locator)
+            )
+
     @allure.step('Ожидание что URL содержит {url_part}')
     def wait_for_url_contains(self, url_part, timeout=10):
         return WebDriverWait(self.driver, timeout).until(
@@ -25,7 +31,7 @@ class BasePage:
 
     @allure.step('Клик по элементу {locator}')
     def click_element(self, locator):
-        element = self.wait_for_element(locator)
+        element = self.wait_for_element_to_be_clickable(locator)
         try:
             element.click()
         except ElementClickInterceptedException:

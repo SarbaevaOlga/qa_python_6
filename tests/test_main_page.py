@@ -4,7 +4,7 @@ from pages.main_page import MainPage
 from data import faq_data
 from urls import Urls
 
-@pytest.mark.usefixtures('driver')
+
 @allure.feature('Главная страница')
 class TestMainPage:
     @allure.title('Проверка ответов в разделе "Вопросы о важном"')
@@ -42,3 +42,8 @@ class TestMainPage:
         assert Urls.DZEN_URL_PART in current_url
         main_page.close_current_window()
         main_page.switch_to_window(original_window)
+
+        # Финальная проверка - убеждаемся, что вернулись на исходную страницу
+        current_url_after_return = main_page.get_current_url()
+        assert current_url_after_return != current_url, "Должны вернуться на исходную страницу после закрытия окна Дзена"
+        assert urls.MAIN_PAGE in current_url_after_return, "Должны быть на главной странице Самоката"
